@@ -191,6 +191,58 @@ func GetFlags(cmd *cobra.Command, cloudProvider string) (*types.CliFlags, error)
 		viper.Set("flags.servers-args", cliFlags.K3sServersArgs)
 	}
 
+	if cloudProvider == "harvester" {
+		harvesterKubeconfigPath, err := cmd.Flags().GetString("kubeconfig-path")
+		if err != nil {
+			return &cliFlags, fmt.Errorf("failed to get kubeconfig-path flag: %w", err)
+		}
+		cliFlags.HarvesterKubeconfigPath = harvesterKubeconfigPath
+
+		harvesterLBIPRange, err := cmd.Flags().GetString("lb-ip-range")
+		if err != nil {
+			return &cliFlags, fmt.Errorf("failed to get lb-ip-range flag: %w", err)
+		}
+		cliFlags.HarvesterLBIPRange = harvesterLBIPRange
+
+		vclusters, err := cmd.Flags().GetStringSlice("vclusters")
+		if err != nil {
+			return &cliFlags, fmt.Errorf("failed to get vclusters flag: %w", err)
+		}
+		cliFlags.VClusters = vclusters
+
+		installIstio, err := cmd.Flags().GetBool("install-istio")
+		if err != nil {
+			return &cliFlags, fmt.Errorf("failed to get install-istio flag: %w", err)
+		}
+		cliFlags.InstallIstio = installIstio
+
+		istioVersion, err := cmd.Flags().GetString("istio-version")
+		if err != nil {
+			return &cliFlags, fmt.Errorf("failed to get istio-version flag: %w", err)
+		}
+		cliFlags.IstioVersion = istioVersion
+
+		installKgateway, err := cmd.Flags().GetBool("install-kgateway")
+		if err != nil {
+			return &cliFlags, fmt.Errorf("failed to get install-kgateway flag: %w", err)
+		}
+		cliFlags.InstallKgateway = installKgateway
+
+		gitopsRepo, err := cmd.Flags().GetString("gitops-repo")
+		if err != nil {
+			return &cliFlags, fmt.Errorf("failed to get gitops-repo flag: %w", err)
+		}
+		cliFlags.GitopsRepo = gitopsRepo
+
+		viper.Set("flags.kubeconfig-path", cliFlags.HarvesterKubeconfigPath)
+		viper.Set("flags.lb-ip-range", cliFlags.HarvesterLBIPRange)
+		viper.Set("flags.vclusters", cliFlags.VClusters)
+		viper.Set("flags.install-istio", cliFlags.InstallIstio)
+		viper.Set("flags.istio-version", cliFlags.IstioVersion)
+		viper.Set("flags.install-kgateway", cliFlags.InstallKgateway)
+		viper.Set("flags.gitops-repo", cliFlags.GitopsRepo)
+	}
+
 	if err := viper.WriteConfig(); err != nil {
 		return &cliFlags, fmt.Errorf("failed to write configuration: %w", err)
 	}

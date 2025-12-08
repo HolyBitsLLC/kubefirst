@@ -234,6 +234,15 @@ func CreateClusterDefinitionRecordFromRaw(gitAuth apiTypes.GitAuth, cliFlags typ
 
 		cl.GoogleAuth.KeyFile = string(jsonContent)
 		cl.GoogleAuth.ProjectID = cliFlags.GoogleProject
+	case "harvester":
+		// Harvester uses an existing kubeconfig file
+		cl.HarvesterAuth.KubeconfigPath = viper.GetString("flags.kubeconfig-path")
+		cl.HarvesterAuth.LBIPRange = viper.GetString("flags.lb-ip-range")
+		cl.HarvesterAuth.VClusters = viper.GetStringSlice("flags.vclusters")
+		cl.HarvesterAuth.InstallIstio = viper.GetBool("flags.install-istio")
+		cl.HarvesterAuth.IstioVersion = viper.GetString("flags.istio-version")
+		cl.HarvesterAuth.InstallKgateway = viper.GetBool("flags.install-kgateway")
+		cl.HarvesterAuth.GitopsRepo = viper.GetString("flags.gitops-repo")
 	}
 
 	return &cl, nil

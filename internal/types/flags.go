@@ -36,4 +36,12 @@ type CliFlags struct {
 	K3sServersArgs       []string
 	InstallKubefirstPro  bool
 	AMIType              string
+	// Harvester specific
+	HarvesterKubeconfigPath string
+	HarvesterLBIPRange      string
+	VClusters               []string
+	InstallIstio            bool
+	IstioVersion            string
+	InstallKgateway         bool
+	GitopsRepo              string
 }

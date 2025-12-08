@@ -17,6 +17,7 @@ import (
 	"github.com/konstructio/kubefirst/cmd/civo"
 	"github.com/konstructio/kubefirst/cmd/digitalocean"
 	"github.com/konstructio/kubefirst/cmd/google"
+	"github.com/konstructio/kubefirst/cmd/harvester"
 	"github.com/konstructio/kubefirst/cmd/k3d"
 	"github.com/konstructio/kubefirst/cmd/k3s"
 	"github.com/konstructio/kubefirst/cmd/vultr"
@@ -49,13 +50,14 @@ func Execute() {
 	output := rootCmd.ErrOrStderr()
 
 	rootCmd.AddCommand(
+		harvester.NewCommand(),
+		k3d.NewCommand(),
+		k3d.LocalCommandAlias(),
+		k3s.NewCommand(),
 		aws.NewCommand(),
 		azure.NewCommand(),
 		civo.NewCommand(),
 		digitalocean.NewCommand(),
-		k3d.NewCommand(),
-		k3d.LocalCommandAlias(),
-		k3s.NewCommand(),
 		google.NewCommand(),
 		vultr.NewCommand(),
 		akamai.NewCommand(),
