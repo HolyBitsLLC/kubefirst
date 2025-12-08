@@ -100,6 +100,8 @@ func DisplaySuccessMessage(cluster types.Cluster) string {
 		cloudCliKubeconfig = fmt.Sprintf("vultr-cli kubernetes config %q", cluster.ClusterName)
 	case "k3s":
 		cloudCliKubeconfig = "use the kubeconfig file outputted from terraform to access the cluster"
+	case "harvester":
+		cloudCliKubeconfig = "use the Harvester kubeconfig file to access the cluster"
 	}
 
 	var fullDomainName string

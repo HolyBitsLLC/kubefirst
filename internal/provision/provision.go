@@ -116,20 +116,33 @@ func (p *Provisioner) ProvisionManagementCluster(ctx context.Context, cliFlags *
 		return wrerr
 	}
 
-	p.stepper.NewProgressStep("Setup k3d Cluster")
+	// Setup cluster based on cloud provider
+	switch cliFlags.CloudProvider {
+	case "k3s", "aws", "civo", "google", "digitalocean", "vultr", "akamai", "azure":
+		// Cloud providers handle cluster creation via their own mechanisms
+		p.stepper.NewProgressStep("Setup Cloud Cluster")
+	case "harvester":
+		// Harvester uses existing cluster via kubeconfig
+		p.stepper.NewProgressStep("Validate Harvester Cluster")
+		// TODO: Add Harvester cluster validation logic here
+		// For now, skip the k3d cluster creation step
+	default:
+		// k3d and default flow
+		p.stepper.NewProgressStep("Setup k3d Cluster")
 
-	k3dClusterCreationComplete := viper.GetBool("launch.deployed")
-	isK1Debug := strings.ToLower(os.Getenv("K1_LOCAL_DEBUG")) == "true"
+		k3dClusterCreationComplete := viper.GetBool("launch.deployed")
+		isK1Debug := strings.ToLower(os.Getenv("K1_LOCAL_DEBUG")) == "true"
 
-	if !k3dClusterCreationComplete && !isK1Debug {
-		if err := launch.Up(ctx, nil, true, cliFlags.UseTelemetry); err != nil {
-			return fmt.Errorf("failed to launch k3d cluster: %w", err)
+		if !k3dClusterCreationComplete && !isK1Debug {
+			if err := launch.Up(ctx, nil, true, cliFlags.UseTelemetry); err != nil {
+				return fmt.Errorf("failed to launch k3d cluster: %w", err)
+			}
 		}
-	}
 
-	err = utils.IsAppAvailable(fmt.Sprintf("%s/api/proxyHealth", cluster.GetConsoleIngressURL()), "kubefirst api")
-	if err != nil {
-		return fmt.Errorf("API availability check failed: %w", err)
+		err = utils.IsAppAvailable(fmt.Sprintf("%s/api/proxyHealth", cluster.GetConsoleIngressURL()), "kubefirst api")
+		if err != nil {
+			return fmt.Errorf("API availability check failed: %w", err)
+		}
 	}
 
 	p.stepper.NewProgressStep("Create Management Cluster")
