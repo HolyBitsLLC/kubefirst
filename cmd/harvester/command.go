@@ -125,6 +125,13 @@ func Create() *cobra.Command{
 	createCmd.Flags().String("unifi-user", "admin", "UniFi controller username")
 	createCmd.Flags().String("unifi-password", "", "UniFi controller password")
 
+	// Staged provisioning — stop cleanly after the named phase:
+	//   argocd   → ArgoCD installed + registry app deployed
+	//   ingress  → Cloudflare DNS + UniFi port-forward live
+	//   vcluster → platform-vcluster ArgoCD app Healthy/Synced
+	//   vault    → vault ArgoCD app Healthy/Synced
+	createCmd.Flags().String("stop-after", "", "halt provisioning after phase: argocd|ingress|vcluster|vault")
+
 	return createCmd
 }
 

@@ -246,6 +246,7 @@ func CreateClusterDefinitionRecordFromRaw(gitAuth apiTypes.GitAuth, cliFlags typ
 		cl.HarvesterAuth.UniFiHost = viper.GetString("flags.unifi-host")
 		cl.HarvesterAuth.UniFiUser = viper.GetString("flags.unifi-user")
 		cl.HarvesterAuth.UniFiPassword = viper.GetString("flags.unifi-password")
+		cl.HarvesterAuth.StopAfterPhase = viper.GetString("flags.stop-after")
 	}
 
 	return &cl, nil

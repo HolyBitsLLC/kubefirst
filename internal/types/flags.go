@@ -48,4 +48,6 @@ type CliFlags struct {
 	UniFiHost     string
 	UniFiUser     string
 	UniFiPassword string
+	// Staged provisioning
+	StopAfter string
 }

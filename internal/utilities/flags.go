@@ -252,6 +252,12 @@ func GetFlags(cmd *cobra.Command, cloudProvider string) (*types.CliFlags, error)
 		}
 		cliFlags.UniFiPassword = uniFiPassword
 
+		stopAfter, err := cmd.Flags().GetString("stop-after")
+		if err != nil {
+			return &cliFlags, fmt.Errorf("failed to get stop-after flag: %w", err)
+		}
+		cliFlags.StopAfter = stopAfter
+
 		viper.Set("flags.kubeconfig-path", cliFlags.HarvesterKubeconfigPath)
 		viper.Set("flags.lb-ip-range", cliFlags.HarvesterLBIPRange)
 		viper.Set("flags.vclusters", cliFlags.VClusters)
@@ -262,6 +268,7 @@ func GetFlags(cmd *cobra.Command, cloudProvider string) (*types.CliFlags, error)
 		viper.Set("flags.unifi-host", cliFlags.UniFiHost)
 		viper.Set("flags.unifi-user", cliFlags.UniFiUser)
 		viper.Set("flags.unifi-password", cliFlags.UniFiPassword)
+		viper.Set("flags.stop-after", cliFlags.StopAfter)
 	}
 
 	if err := viper.WriteConfig(); err != nil {
