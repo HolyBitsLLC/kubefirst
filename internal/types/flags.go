@@ -44,4 +44,8 @@ type CliFlags struct {
 	IstioVersion            string
 	InstallKgateway         bool
 	GitopsRepo              string
+	// UniFi ingress
+	UniFiHost     string
+	UniFiUser     string
+	UniFiPassword string
 }

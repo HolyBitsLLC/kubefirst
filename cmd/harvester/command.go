@@ -120,6 +120,11 @@ func Create() *cobra.Command{
 	// Git repository flags
 	createCmd.Flags().String("gitops-repo", "harvester-argo", "name of the GitOps repository")
 
+	// UniFi ingress flags
+	createCmd.Flags().String("unifi-host", "", "UniFi controller host/IP for port-forward and SSL cert upload (e.g. 192.168.1.1)")
+	createCmd.Flags().String("unifi-user", "admin", "UniFi controller username")
+	createCmd.Flags().String("unifi-password", "", "UniFi controller password")
+
 	return createCmd
 }
 

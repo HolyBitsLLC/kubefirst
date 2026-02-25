@@ -234,6 +234,24 @@ func GetFlags(cmd *cobra.Command, cloudProvider string) (*types.CliFlags, error)
 		}
 		cliFlags.GitopsRepo = gitopsRepo
 
+		uniFiHost, err := cmd.Flags().GetString("unifi-host")
+		if err != nil {
+			return &cliFlags, fmt.Errorf("failed to get unifi-host flag: %w", err)
+		}
+		cliFlags.UniFiHost = uniFiHost
+
+		uniFiUser, err := cmd.Flags().GetString("unifi-user")
+		if err != nil {
+			return &cliFlags, fmt.Errorf("failed to get unifi-user flag: %w", err)
+		}
+		cliFlags.UniFiUser = uniFiUser
+
+		uniFiPassword, err := cmd.Flags().GetString("unifi-password")
+		if err != nil {
+			return &cliFlags, fmt.Errorf("failed to get unifi-password flag: %w", err)
+		}
+		cliFlags.UniFiPassword = uniFiPassword
+
 		viper.Set("flags.kubeconfig-path", cliFlags.HarvesterKubeconfigPath)
 		viper.Set("flags.lb-ip-range", cliFlags.HarvesterLBIPRange)
 		viper.Set("flags.vclusters", cliFlags.VClusters)
@@ -241,6 +259,9 @@ func GetFlags(cmd *cobra.Command, cloudProvider string) (*types.CliFlags, error)
 		viper.Set("flags.istio-version", cliFlags.IstioVersion)
 		viper.Set("flags.install-kgateway", cliFlags.InstallKgateway)
 		viper.Set("flags.gitops-repo", cliFlags.GitopsRepo)
+		viper.Set("flags.unifi-host", cliFlags.UniFiHost)
+		viper.Set("flags.unifi-user", cliFlags.UniFiUser)
+		viper.Set("flags.unifi-password", cliFlags.UniFiPassword)
 	}
 
 	if err := viper.WriteConfig(); err != nil {
