@@ -96,6 +96,8 @@ func Create() *cobra.Command{
 	createCmd.Flags().String("cloud-region", "on-premise", "NOT USED, PRESENT FOR COMPATIBILITY")
 	createCmd.Flags().String("node-type", "on-premise", "NOT USED, PRESENT FOR COMPATIBILITY")
 	createCmd.Flags().String("node-count", "1", "NOT USED, PRESENT FOR COMPATIBILITY")
+	createCmd.Flags().String("subdomain", "", "NOT USED, PRESENT FOR COMPATIBILITY")
+	createCmd.Flags().Bool("install-kubefirst-pro", true, "NOT USED, PRESENT FOR COMPATIBILITY")
 	createCmd.Flags().String("cluster-name", "kubefirst", "the name of the cluster to create")
 	createCmd.Flags().String("cluster-type", "mgmt", "the type of cluster to create (mgmt|workload)")
 	createCmd.Flags().String("dns-provider", "cloudflare", "DNS provider - one of: cloudflare")
@@ -107,7 +109,6 @@ func Create() *cobra.Command{
 	createCmd.Flags().String("gitops-template-url", "https://github.com/konstructio/gitops-template.git", "the fully qualified url to the gitops-template repository")
 	createCmd.Flags().String("gitops-template-branch", "", "the branch to use for the gitops-template repository")
 	createCmd.Flags().String("install-catalog-apps", "", "comma separated values to install after provision")
-	createCmd.Flags().Bool("install-kubefirst-pro", true, "whether or not to install kubefirst pro")
 	createCmd.Flags().String("lb-ip-range", "10.0.12.0/24", "IP range for Harvester load balancer pool")
 
 	// vCluster flags
